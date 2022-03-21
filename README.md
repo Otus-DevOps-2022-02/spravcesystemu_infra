@@ -15,4 +15,5 @@
 
 
 
-UPD
+
+https://docs.pritunl.com/docs/installation 
