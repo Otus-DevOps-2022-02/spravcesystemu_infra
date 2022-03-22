@@ -3,20 +3,25 @@
 
 Нужно создать config file в ~/.ssh/ следующего вида:
 
-  Host someinternalhost
+```  Host someinternalhost
   Hostname 10.128.0.7
   User appuser1
   IdentityFile ~/.ssh/vika
-  ProxyCommand ssh -W %h:%p bastion
+  ProxyCommand ssh -W %h:%p bastion 
+  
+  ```
 
-А также в файле ~/.bashrc прописать alias someinternalhost='ssh someinternalhost.
+А также в файле ~/.bashrc прописать 
+``` alias someinternalhost='ssh someinternalhost.```
 
 Подсматривала в эту статью https://dev.to/aws-builders/ssh-setup-and-tunneling-via-bastion-host-3kcc 
 
-3)
+3) При установке Pritunl использовала официальную документацию https://docs.pritunl.com/docs/installation 
+``` 
 bastion_IP = 84.252.129.165
 someinternalhost_IP = 10.128.0.7
 
+```
+  
 
 
-https://docs.pritunl.com/docs/installation 
