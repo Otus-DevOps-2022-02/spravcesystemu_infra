@@ -2,7 +2,7 @@
 spravcesystemu Infra repository
 
 
-ДЗ №4 Деплой тестового приложенияприложения
+ДЗ №4 Деплой тестового приложения
 
 testapp_IP = 51.250.73.28
 testapp_port = 9292
