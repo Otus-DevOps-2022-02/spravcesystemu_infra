@@ -3,8 +3,5 @@ addAssignees: true
 
 # A list of reviewers to be added to pull requests (GitHub user name)
 reviewers:
-<<<<<<< HEAD
   - mrgreyves
-=======
-  - mrgreyves
->>>>>>> 7f471f1d4d16edaffefac55e129427f587dab1c2
+  
