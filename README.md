@@ -1,7 +1,7 @@
 # spravcesystemu_infra
 spravcesystemu Infra repository
 
-LP №5 Сборка образов VM при помощи Packer
+ДЗ №5 Сборка образов VM при помощи Packer
 
 1.Создала новую ветку packer-base
 2.Перенесла наработки в config-scripts
