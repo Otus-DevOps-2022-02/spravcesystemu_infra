@@ -32,7 +32,7 @@ LP №5 Сборка образов VM при помощи Packer
         {
             "type": "yandex",
             "service_account_key_file": "{{user `key`}}",
-            "folder_id": "b1grdltsfhml9ma0o977",
+            "folder_id": "xyz",
             "source_image_family": "ubuntu-1604-lts",
             "image_name": "reddit-base-{{timestamp}}",
             "image_family": "reddit-base",
