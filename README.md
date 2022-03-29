@@ -59,6 +59,11 @@ spravcesystemu Infra repository
 }
 
 ```
+7.Выполняем проверку и запускаем образ
+
+$ packer validate ./ubuntu16.json
+$ packer build ./ubuntu16.json
+
 
 
 
