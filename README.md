@@ -64,7 +64,76 @@ spravcesystemu Infra repository
 	$ packer validate ./ubuntu16.json
 	$ packer build ./ubuntu16.json
 
-8.
+8.Построение bake-образа. image_family у получившегося образа reddit-full.
+
+```
+
+{
+    "builders": [
+        {
+            "type": "yandex",
+            "service_account_key_file": "{{user `key`}}",
+            "folder_id": "{{user `fid`}}",
+            "source_image_family": "{{user `image`}}",
+            "image_name": "reddit-full-{{timestamp}}",
+            "image_family": "reddit-full",
+            "ssh_username": "ubuntu",
+            "use_ipv4_nat": "true",
+            "disk_name": "reddit-base",
+            "disk_size_gb": "20",
+            "platform_id": "standard-v1"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "scripts/install_ruby.sh",
+            "execute_command": "sudo {{.Path}}"
+        },
+        {
+            "type": "shell",
+            "script": "scripts/install_mongodb.sh",
+            "execute_command": "sudo {{.Path}}"
+        },
+        {
+            "type": "file",
+            "source": "files/puma.service",
+            "destination": "/tmp/puma.service"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo mv /tmp/puma.service /etc/systemd/system/puma.service",
+
+                "cd /opt",
+                "sudo apt-get install -y git",
+                "sudo chmod -R 0777 /opt",
+                "git clone -b monolith https://github.com/express42/reddit.git",
+                "cd reddit && bundle install",
+                "sudo systemctl daemon-reload && sudo systemctl start puma && sudo systemctl enable puma"
+            ]
+        }
+    ]
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -87,7 +156,7 @@ testapp_port = 9292
 --metadata-from-file=./setup.sh 
 ```
 
-#  ДЗ №4.Знакомство с облачной инфраструктурой Yndex Cloud
+#  ДЗ №4.Знакомство с облачной инфраструктурой Yandex Cloud
 
 
 Нужно создать config file в ~/.ssh/ следующего вида:
