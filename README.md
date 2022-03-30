@@ -145,7 +145,7 @@ testapp_port = 9292
 --metadata-from-file=./setup.sh 
 ```
 
-#  ДЗ №3.Знакомство с облачной инфраструктурой Yandex Cloud
+#  ДЗ №3 Знакомство с облачной инфраструктурой Yandex Cloud
 
 
 Нужно создать config file в ~/.ssh/ следующего вида:
