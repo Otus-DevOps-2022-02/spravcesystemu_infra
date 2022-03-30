@@ -120,9 +120,9 @@ spravcesystemu Infra repository
 
 
 Смотрела сюда 
-https://github.com/puma/puma/blob/master/docs/systemd.md
-https://www.packer.io/docs/provisioners/file
-https://www.packer.io/docs/provisioners/shell
+* https://github.com/puma/puma/blob/master/docs/systemd.md
+* https://www.packer.io/docs/provisioners/file
+* https://www.packer.io/docs/provisioners/shell
 
 
 
