@@ -2,7 +2,6 @@ terraform {
   required_providers {
     yandex = {
       source  = "yandex-cloud/yandex"
-      version = "~> 0.43"
     }
   }
 }
@@ -15,7 +14,7 @@ provider "yandex" {
 }
 
 resource "yandex_compute_instance" "app" {
-  name = "reddit-ap"
+  name = "reddit-app"
 
   resources {
     cores  = 2
