@@ -1,6 +1,7 @@
 # spravcesystemu_infra
 spravcesystemu Infra repository
 
+
 #  ДЗ №6 Практика IaC с использованием Terraform
 
 1.Скачиваем и устанавливаем Terraform по ссылке https://www.terraform.io/downloads
@@ -195,10 +196,6 @@ resource "yandex_lb_network_load_balancer" "lb" {
 }
 ```
 
-
-
-
-
 #  ДЗ №5 Сборка образов VM при помощи Packer
 
 1.Создала новую ветку packer-base
@@ -319,11 +316,68 @@ resource "yandex_lb_network_load_balancer" "lb" {
 ```
 
 
+```
+
+{
+    "builders": [
+        {
+            "type": "yandex",
+            "service_account_key_file": "{{user `key`}}",
+            "folder_id": "{{user `fid`}}",
+            "source_image_family": "{{user `image`}}",
+            "image_name": "reddit-full-{{timestamp}}",
+            "image_family": "reddit-full",
+            "ssh_username": "ubuntu",
+            "use_ipv4_nat": "true",
+            "disk_name": "reddit-base",
+            "disk_size_gb": "20",
+            "platform_id": "standard-v1"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "scripts/install_ruby.sh",
+            "execute_command": "sudo {{.Path}}"
+        },
+        {
+            "type": "shell",
+            "script": "scripts/install_mongodb.sh",
+            "execute_command": "sudo {{.Path}}"
+        },
+        {
+            "type": "file",
+            "source": "files/puma.service",
+            "destination": "/tmp/puma.service"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo mv /tmp/puma.service /etc/systemd/system/puma.service",
+
+                "cd /opt",
+                "sudo apt-get install -y git",
+                "sudo chmod -R 0777 /opt",
+                "git clone -b monolith https://github.com/express42/reddit.git",
+                "cd reddit && bundle install",
+                "sudo systemctl daemon-reload && sudo systemctl start puma && sudo systemctl enable puma"
+            ]
+        }
+    ]
+}
+
+```
+
+
 Смотрела сюда 
 * https://github.com/puma/puma/blob/master/docs/systemd.md
 * https://www.packer.io/docs/provisioners/file
 * https://www.packer.io/docs/provisioners/shell
 
+Смотрела сюда 
+* https://github.com/puma/puma/blob/master/docs/systemd.md
+* https://www.packer.io/docs/provisioners/file
+* https://www.packer.io/docs/provisioners/shell
 
 
 #  ДЗ №4 Деплой тестового приложения
@@ -370,4 +424,3 @@ someinternalhost_IP = 10.128.0.7
 
 ```
   
-
