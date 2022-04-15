@@ -1,3 +1,4 @@
+# Create target group
 resource "yandex_lb_target_group" "loadbalancer" {
   name      = "lb-group"
   folder_id = var.folder_id
@@ -38,3 +39,4 @@ resource "yandex_lb_network_load_balancer" "lb" {
     }
   }
 }
+

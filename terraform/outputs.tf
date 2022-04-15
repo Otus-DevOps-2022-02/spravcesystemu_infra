@@ -1,7 +1,11 @@
-output "external_ip_address_app" {
-  value = yandex_compute_instance.app.network_interface.0.nat_ip_address
+variable "public_key_path" {
+  description = "Path to the public key used for ssh access"
+}
+variable "app_disk_image" {
+  description = "Disk image for reddit app"
+  default     = "reddit-app-base"
+}
+variable "subnet_id" {
+  description = "Subnets for modules"
 }
 
-output "loadbalancer_ip_address" {
-  value = yandex_lb_network_load_balancer.lb.listener.*.external_address_spec[0].*.address
-}

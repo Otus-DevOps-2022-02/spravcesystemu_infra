@@ -8,7 +8,5 @@ private_key_path          = "~/.ssh/terraform"
 instances                 = 1
 app_disk_image            = "reddit-app-base"
 db_disk_image             = "reddit-db-base"
-access_key                = "lol"
-secret_key                = "kek"
-bucket_name               = "otus"
+prov                      = true
 
