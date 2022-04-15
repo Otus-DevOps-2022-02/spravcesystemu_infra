@@ -1,0 +1,10 @@
+cloud_id                  = "otus"
+folder_id                 = "otus"
+image_id                  = "otus"
+subnet_id                 = "otus"
+public_key_path           = "~/.ssh/terraform.pub"
+service_account_key_file  = "key.json"
+private_key_path          = "~/.ssh/terraform"
+instances                 = 1
+prov                      = true
+
