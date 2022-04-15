@@ -1,6 +1,265 @@
 # spravcesystemu_infra
 spravcesystemu Infra repository
 
+#  ДЗ №7 Принципы организации инфраструктурного кода и работа над инфраструктурой в команде на примере Terraform
+
+1.Создаем branch terraform-2 и зададим IP для инстанса с приложением в виде внешнего ресурса. Для этого определим ресурсы yandex_vpc_network и yandex_vpc_subnet в конфигурационном файле main.tf
+
+```
+resource "yandex_vpc_network" "app-network" {
+  name = "reddit-app-network"
+}
+
+resource "yandex_vpc_subnet" "app-subnet" {
+  name           = "reddit-app-subnet"
+  zone           = "ru-central1-a"
+  network_id     = "${yandex_vpc_network.app-network.id}"
+  v4_cidr_blocks = ["192.168.10.0/24"]
+}
+```
+2. Для того чтобы использовать созданный IP адрес в нашем ресурсе VM нам необходимо сослаться на атрибуты ресурса, который этот IP создает, внутри конфигурации ресурса VM. В конфигурации ресурса VM определите, IP адрес для создаваемого
+инстанса
+
+```
+network_interface {
+subnet_id = yandex_vpc_subnet.app-subnet.id
+nat = true
+}
+```
+* $ terraform destroy --auto-approve
+* $ terraform plan
+* $ terraform apply --auto-approve
+
+3.Далее необходимо создать два новых шаблона db.json и app.json в директории packer
+
+При помощи шаблона db.json должен собираться образ VM, содержащий установленную MongoDB. Шаблон app.json должен использоваться для сборки образа VM, с установленными Ruby. 
+
+```
+            "image_name": "reddit-app-base-{{timestamp}}",
+            "image_family": "reddit-app-base",
+
+            "disk_name": "reddit-app-base",
+```
+
+4.Затем выполняем:
+
+```
+packer validate -var-file=./variables.json ./app.json
+packer build -var-file=./variables.json ./app.json
+packer validate -var-file=./variables.json ./db.json
+packer build -var-file=./variables.json ./db.json
+```
+5.Разобьем конфиг main.tf на несколько конфигов. Создадим файл app.tf, куда вынесем конфигурацию для VM с приложением.
+Нужно объявить переменную в variables.tf и задать в terraform.tfvars:
+
+```
+variable app_disk_image {
+  description = "disk image for reddit app"
+  default     = "reddit-app-base"
+}
+variable db_disk_image {
+  description = "disk image for mongodb"
+  default     = "reddit-db-base"
+  
+```
+```
+app_disk_image            = "reddit-app-base"
+db_disk_image             = "reddit-db-base"
+```
+
+app.tf
+
+```
+resource "yandex_compute_instance" "app" {
+name = "reddit-app"
+labels = {
+tags = "reddit-app"
+}
+resources {
+cores = 1
+memory = 2
+}
+boot_disk {
+initialize_params {
+image_id = var.app_disk_image
+}
+}
+network_interface {
+subnet_id = yandex_vpc_subnet.app-subnet.id
+nat = true
+}
+```
+db.tf
+
+```
+resource "yandex_compute_instance" "db" {
+  name = "reddit-db"
+  labels = {
+    tags = "reddit-db"
+  }
+
+  resources {
+    cores  = 1
+    memory = 2
+  }
+
+  boot_disk {
+    initialize_params {
+      image_id = var.db_disk_image
+    }
+  }
+
+  network_interface {
+    subnet_id = yandex_vpc_subnet.app-subnet.id
+    nat = true
+  }
+
+  metadata = {
+  ssh-keys = "ubuntu:${file(var.public_key_path)}"
+  }
+}
+```
+Оставляем в main.tf
+
+```
+provider "yandex" {
+  version                  = "~> 0.43"
+  service_account_key_file = var.service_account_key_file
+  cloud_id                 = var.cloud_id
+  folder_id                = var.folder_id
+  zone                     = var.zone
+}
+```
+
+outputs.tf
+
+```
+output "external_ip_address_app" {
+  value = yandex_compute_instance.app.network_interface.0.nat_ip_address
+}
+output "external_ip_address_db" {
+  value = yandex_compute_instance.db.network_interface.0.nat_ip_address
+}
+```
+Проверяем
+
+* $ terraform destroy --auto-approve
+* $ terraform plan
+* $ terraform apply --auto-approve
+
+6.Разбивая нашу конфигурацию нашей инфраструктуры на отдельные конфиг файлы, мы готовили для себя почву для работы с модулями. Внутри директории terraform создаём директорию modules, в которой мы будет определять модули.
+
+
+modules/db/variables.tf
+
+```
+variable public_key_path {
+  description = "Path to the public key used for ssh access"
+}
+  variable db_disk_image {
+  description = "Disk image for reddit db"
+  default = "reddit-db-base"
+}
+variable subnet_id {
+description = "Subnets for modules"
+}
+
+```
+
+modules/app/variables.tf
+
+```
+variable public_key_path {
+  description = "Path to the public key used for ssh access"
+}
+variable app_disk_image {
+  description = "Disk image for reddit app"
+  default = "reddit-app-base"
+}
+variable subnet_id {
+description = "Subnets for modules"
+}
+
+```
+
+outputs.tf
+```
+output "external_ip_address_app" {
+  value = yandex_compute_instance.app.network_interface.0.nat_ip_address
+}
+```
+И удаляем из дириктории app.tf, db.tf и vpc.tf
+
+7. В main прописываем модули
+
+```
+provider "yandex" {
+  service_account_key_file = var.service_account_key_file
+  cloud_id  = var.cloud_id
+  folder_id = var.folder_id
+  zone      = var.zone
+}
+module "app" {
+  source          = "./modules/app"
+  public_key_path = var.public_key_path
+  app_disk_image  = var.app_disk_image
+  subnet_id       = var.subnet_id
+}
+
+module "db" {
+  source          = "./modules/db"
+  public_key_path = var.public_key_path
+  db_disk_image   = var.db_disk_image
+  subnet_id       = var.subnet_id
+}
+
+```
+8.И редактируем outputs.tf
+
+```
+output "external_ip_address_app" {
+  value = module.app.external_ip_address_app
+}
+output "external_ip_address_db" {
+  value = module.db.external_ip_address_db
+}
+
+```
+9.Чтобы начать использовать модули, нам нужно сначала их загрузить из указанного источника. В нашем случае источником модулей будет просто локальная папка на диске. Используем команду для загрузки модулей. В директории terraform: Модули будут загружены в директорию .terraform, в которой уже содержится провайдер source
+
+```
+terraform get
+```
+
+```
+terraform plan; terraform apply --auto-approve
+
+```
+10.Всё то же самое делаем для stage
+
+```
+provider "yandex" {
+  service_account_key_file = var.service_account_key_file
+  cloud_id  = var.cloud_id
+  folder_id = var.folder_id
+  zone      = var.zone
+}
+module "app" {
+  source          = "../modules/app"
+  public_key_path = var.public_key_path
+  app_disk_image  = var.app_disk_image
+  subnet_id       = var.subnet_id
+}
+
+module "db" {
+  source          = "../modules/db"
+  public_key_path = var.public_key_path
+  db_disk_image   = var.db_disk_image
+  subnet_id       = var.subnet_id
+}
+
+```
+
 #  ДЗ №6 Практика IaC с использованием Terraform
 
 1.Скачиваем и устанавливаем Terraform по ссылке https://www.terraform.io/downloads
