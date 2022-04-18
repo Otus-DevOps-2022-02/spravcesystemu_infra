@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 cloud_id                  = "otus"
 folder_id                 = "otus"
 image_id                  = "otus"
@@ -11,4 +12,15 @@ db_disk_image             = "reddit-db-base"
 access_key                = "lol"
 secret_key                = "kek"
 bucket_name               = "otus"
+=======
+cloud_id = "xyz"
+folder_id = "zyx"
+zone = "ru-central1-a"
+image_id = "yzx"
+public_key_path = "~/.ssh/yc.pub"
+subnet_id = "xxx"
+service_account_key_file = "key.json"
+private_key_path = "~/.ssh/yc"
+instances = 1
+>>>>>>> 7898b2b6a1b17a45ce92c5e8a5f28a691a1d2027
 
