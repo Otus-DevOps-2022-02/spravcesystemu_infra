@@ -14,4 +14,3 @@ variable private_key_path {
 variable prov {
   description = "using prov"
 }
-
