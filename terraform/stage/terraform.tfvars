@@ -1,0 +1,12 @@
+cloud_id = "b1g8qvps1nop8v71qkl7"
+folder_id = "b1grdltsfhml9ma0o977"
+zone = "ru-central1-a"
+image_id = "fd8kd8oc27i867q51r06"
+public_key_path = "~/.ssh/terraform.pub"
+subnet_id = "e9bbfnd3pfpqa05hup1i"
+service_account_key_file = "key.json"
+private_key_path = "~/.ssh/terraform"
+instances = 1
+app_disk_image = "reddit-app-base"
+db_disk_image = "reddit-db-base"
+prov = true
