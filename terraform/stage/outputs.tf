@@ -1,10 +1,6 @@
-variable "public_key_path" {
-  description = "Path to the public key used for ssh access"
+output "external_ip_address_app" {
+  value = module.app.external_ip_address_app
 }
-variable "app_disk_image" {
-  description = "Disk image for reddit app"
-  default     = "reddit-app-base"
-}
-variable "subnet_id" {
-  description = "Subnets for modules"
+output "external_ip_address_db" {
+  value = module.db.external_ip_address_db
 }
