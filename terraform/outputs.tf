@@ -4,5 +4,3 @@ output "external_ip_addresses_app" {
 output "loadbalancer_ip_address" {
   value = yandex_lb_network_load_balancer.lb.listener.*.external_address_spec[0].*.address
 }
-
-
