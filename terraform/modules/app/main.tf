@@ -46,4 +46,3 @@ resource "null_resource" "app" {
     script = "${path.module}/files/deploy.sh"
   }
 }
-
