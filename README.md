@@ -1,6 +1,42 @@
 # spravcesystemu_infra
 spravcesystemu Infra repository
 
+#  ДЗ №8 Управление конфигурацией. Основные DevOps инструменты.Знакомство с Ansible
+
+1.Устанавливаем python и ansible, проверяем версии
+2.Создадим инвентори файл ansible/inventory , в котором укажем информацию о созданном инстансе приложения и параметры подключения к нему по SSH
+
+```
+appserver ansible_host=35.195.186.154 ansible_user=appuser \
+ansible_private_key_file=~/.ssh/appuser
+```
+$ ansible appserver -i ./inventory -m ping
+
+3.Создадим для удобства ansible.cfg
+
+```
+[defaults]
+inventory = ./inventory
+remote_user = appuser
+private_key_file = ~/.ssh/appuser
+host_key_checking = False
+retry_files_enabled = False
+```
+4.Изменим инвентори
+```
+[app] # ⬅ Это название группы
+appserver ansible_host=35.195.74.54 # ⬅ Cписок хостов в данной группе
+[db]
+dbserver ansible_host=35.195.162.174
+```
+5. Проверим выполнение команд
+
+$ ansible app -m command -a 'ruby -v'
+$ ansible app -m command -a 'bundler -v'
+$ ansible app -m command -a 'ruby -v; bundler -v'
+
+6.Создадим простой плейбук ansible/clone.yml и протестируем работу.
+
 #  ДЗ №7 Принципы организации инфраструктурного кода и работа над инфраструктурой в команде на примере Terraform
 
 1.Создаем branch terraform-2 и зададим IP для инстанса с приложением в виде внешнего ресурса. Для этого определим ресурсы yandex_vpc_network и yandex_vpc_subnet в конфигурационном файле main.tf
