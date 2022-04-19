@@ -1,10 +1,8 @@
-cloud_id = "xyz"
-folder_id = "zyx"
-zone = "ru-central1-a"
-image_id = "yzx"
-public_key_path = "~/.ssh/yc.pub"
-subnet_id = "xxx"
+cloud_id                 = "xyz"
+folder_id                = "zyx"
+zone                     = "ru-central1-a"
+image_id                 = "xxx"
+public_key_path          = "~/.ssh/id_rsa.pub"
+subnet_id                = "xxx"
 service_account_key_file = "key.json"
-private_key_path = "~/.ssh/yc"
-instances = 1
-
+private_key_path         = "~/.ssh/id_rsa"

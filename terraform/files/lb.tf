@@ -39,3 +39,4 @@ resource "yandex_lb_network_load_balancer" "lb" {
     }
   }
 }
+
