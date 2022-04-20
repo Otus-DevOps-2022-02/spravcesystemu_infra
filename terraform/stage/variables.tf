@@ -40,7 +40,4 @@ variable db_disk_image {
   description = "disk image for mongodb"
   default     = "reddit-db-base"
 }
-variable prov {
-  description = "using provisioner"
-  default = true
-}
+
