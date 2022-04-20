@@ -13,6 +13,7 @@ module "app" {
   app_disk_image  = var.app_disk_image
   subnet_id       = var.subnet_id
   db_ip           = module.db.db_internal_ip
+  prov            = var.prov
 }
 
 module "db" {
@@ -21,4 +22,5 @@ module "db" {
   private_key_path = var.private_key_path
   db_disk_image   = var.db_disk_image
   subnet_id       = var.subnet_id
+  prov            = var.prov
 }
