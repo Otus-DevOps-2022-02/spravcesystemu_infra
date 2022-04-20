@@ -17,32 +17,35 @@ resource "yandex_compute_instance" "db" {
 
   network_interface {
     subnet_id = var.subnet_id
-    nat = true
+    nat       = true
   }
 
   metadata = {
-  ssh-keys = "ubuntu:${file(var.public_key_path)}"
+    ssh-keys = "ubuntu:${file(var.public_key_path)}"
   }
 }
 
+
 resource "null_resource" "db" {
-  count = var.prov ? 1 : 0
-  triggers = {
-    cluster_instance_ids = yandex_compute_instance.db.id
-  }
- connection {
+  count = var.deploy ? 1 : 0
+
+  connection {
     type        = "ssh"
     host        = yandex_compute_instance.db.network_interface[0].nat_ip_address
     user        = "ubuntu"
     agent       = false
     private_key = file(var.private_key_path)
   }
-    provisioner "file" {
-    content     = templatefile("${path.module}/files/mongod.conf.tmpl", { db_ip = yandex_compute_instance.db.network_interface.0.ip_address})
+
+  provisioner "file" {
+    source      = "${path.module}/files/mongod.conf"
     destination = "/tmp/mongod.conf"
   }
 
   provisioner "remote-exec" {
-    script = "${path.module}/files/deploy.sh"
+    inline = [
+      "sudo mv -f /tmp/mongod.conf /etc/mongod.conf",
+      "sudo systemctl restart mongod",
+    ]
   }
 }
