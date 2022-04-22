@@ -1,0 +1,11 @@
+cloud_id                  = "zzz"
+folder_id                 = "xxx"
+image_id                  = "ggg"
+subnet_id                 = "ttt"
+public_key_path           = "~/.ssh/yc.pub"
+service_account_key_file  = "key.json"
+private_key_path          = "~/.ssh/ycr"
+instances                 = 1
+app_disk_image            = "reddit-app-base"
+db_disk_image             = "reddit-db-base"
+prov                      = true
