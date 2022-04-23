@@ -1,8 +1,10 @@
-cloud_id                 = "kkk"
-folder_id                = "ddd"
-zone                     = "ru-central1-a"
-image_id                 = "fffff"
-public_key_path          = "~/.ssh/id_rsa.pub"
-subnet_id                = "ttttt
-service_account_key_file = "key.json"
-private_key_path         = "~/.ssh/id_rsa"
+{
+        "service_account_key_file": "packer/key.json",
+        "folder_id": "zzz",
+        "source_image_family": "ubuntu-1604-lts",
+        "platform_id": "standard-v1",
+        "ssh_username": "ubuntu",
+        "disk_size_gb": "10",
+        "instance_cores": "2",
+        "instance_mem_gb": "2"
+    }
