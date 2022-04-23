@@ -1,5 +1,8 @@
-{
-	"key": "key.json",
-	"fid": "xyz",
-	"image": "ubuntu-1604-lts"
-}
+cloud_id                 = "kkk"
+folder_id                = "ddd"
+zone                     = "ru-central1-a"
+image_id                 = "fffff"
+public_key_path          = "~/.ssh/id_rsa.pub"
+subnet_id                = "ttttt
+service_account_key_file = "key.json"
+private_key_path         = "~/.ssh/id_rsa"
