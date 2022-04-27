@@ -26,4 +26,4 @@
             "playbook_file": "ansible/packer_app.yml"
         }
     ]
-   
+}   
