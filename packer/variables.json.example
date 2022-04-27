@@ -1,10 +1,6 @@
 {
-        "service_account_key_file": "packer/key.json",
-        "folder_id": "zzz",
-        "source_image_name": "ubuntu-1604-lts",
-        "platform_id": "standard-v1",
-        "ssh_username": "ubuntu",
-        "disk_size_gb": "10",
-        "instance_cores": "2",
-        "instance_mem_gb": "2"
-    }
+    "folder_id": "sfdsftjysfsfsfsdf",
+    "service_account_key_file": "./key.json.example",
+    "source_image_family": "ubuntu-1604-lts",
+    "platform_id": "standard-v1"
+}
