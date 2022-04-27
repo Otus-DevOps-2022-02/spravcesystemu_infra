@@ -2,22 +2,19 @@
     "builders": [
         {
             "type": "yandex",
-            "service_account_key_file": "{{user `key`}}",
-            "folder_id": "{{user `fid`}}",
-            "source_image_family": "{{user `image`}}",
-            "image_name": "reddit-app-base-{{timestamp}}",
-            "image_family": "reddit-app-base",
+            "service_account_key_file": "{{ user `service_account_key_file` }}",
+            "folder_id": "{{ user `folder_id` }}",
+            "source_image_family": "{{ user `source_image_family` }}",
+            "image_name": "reddit-base-{{timestamp}}",
+            "image_family": "reddit-base",
             "ssh_username": "ubuntu",
-            "use_ipv4_nat": "true",
-            "disk_name": "reddit-app-base",
-            "disk_size_gb": "20",
-            "platform_id": "standard-v1"
+            "platform_id": "{{ user `platform_id` }}",
+            "use_ipv4_nat": "true"
         }
     ],
     "provisioners": [
         {
             "type": "ansible",
-            "user": "ubuntu",
             "playbook_file": "ansible/packer_app.yml"
         }
     ]
