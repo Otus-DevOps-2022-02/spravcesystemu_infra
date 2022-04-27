@@ -13,7 +13,7 @@
             "source_image_family": "{{user `source_image_family`}}",
             "image_name": "reddit-app-{{timestamp}}",
             "image_family": "reddit-app-base",
-            "subnet_id": "e9bh9tugtt97uvs8ts8d",
+            "subnet_id": "sdfsdfsdfsdfsdf",
             "ssh_username": "ubuntu",
             "platform_id": "standard-v1",
             "use_ipv4_nat": "true"
