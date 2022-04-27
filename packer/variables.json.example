@@ -1,6 +1,6 @@
 {
     "folder_id": "sfdsftjysfsfsfsdf",
-    "service_account_key_file": "./key.json.example",
+    "service_account_key_file": "key.json.example",
     "source_image_family": "ubuntu-1604-lts",
     "platform_id": "standard-v1"
 }
