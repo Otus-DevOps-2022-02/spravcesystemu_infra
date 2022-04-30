@@ -1,25 +1,36 @@
 ---
-- name: Install MongoDB 4.2
+- name: APPS INSTALL ON DB SERVER
   hosts: all
   become: true
   tasks:
-  - name: add key
-    apt_key:
-      url: https://www.mongodb.org/static/pgp/server-4.2.asc
-      state: present
+    - name: install pre apps
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+        state: present
+        update_cache: yes
 
-  - name: Add APT repository
-    apt_repository:
-      repo: deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse
-      state: present
+    - name: add key
+      apt_key:
+        url: https://www.mongodb.org/static/pgp/server-4.2.asc
+        state: present
 
-  - name: Install mongodb package
-    apt:
-      update_cache: yes
-      name: mongodb-org
-      state: present
+    - name: add mongo repo
+      apt_repository:
+        repo: "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse"
+        state: present
+        filename: mongodb-org-4.2
 
-  - name: Configure service supervisor
-    systemd:
-      name: mongod
-      enabled: yes
+    - name: install mongod
+      apt:
+        name:
+          - mongodb-org
+        state: present
+        update_cache: yes
+
+    - name: start service mongod
+      systemd:
+        name: mongod
+        state: started
+        enabled: true
