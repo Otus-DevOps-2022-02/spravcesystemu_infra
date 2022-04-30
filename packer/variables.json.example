@@ -1,5 +1,10 @@
 {
-	"key": "key.json",
-	"fid": "xyz",
-	"image": "ubuntu-1604-lts"
-}
+        "service_account_key_file": "packer/key.json",
+        "folder_id": "2342g784jdhfop29k9724",
+        "source_image_family": "ubuntu-1604-lts",
+        "platform_id": "standard-v1",
+        "ssh_username": "ubuntu",
+        "disk_size_gb": "11",
+        "instance_cores": "2",
+        "instance_mem_gb": "2"
+    }
