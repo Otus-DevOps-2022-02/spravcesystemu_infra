@@ -1,10 +1,10 @@
-# packer files
 variables.json
-
-### Terraform files
+metadata.yaml
 *.tfstate
 *.tfstate.*.backup
 *.tfstate.backup
 *.tfvars
 .terraform/
-
+*.retry
+vault.json
+jdauphant.nginx
