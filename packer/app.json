@@ -1,29 +1,25 @@
 {
-    "variables": {
-            "folder_id": "",
-            "source_image_family": "",
-            "service_account_key_file": ""
-    },
     "builders": [
         {
             "type": "yandex",
-            "service_account_key_file": "{{user `service_account_key_file`}}",
-            "folder_id": "{{user `folder_id`}}",
-            "zone": "ru-central1-a",
-            "source_image_family": "{{user `source_image_family`}}",
+            "service_account_key_file": "{{ user `service_account_key_file` }}",
+            "folder_id": "{{ user `folder_id`}}",
+            "source_image_family": "{{ user `source_image_family` }}",
             "image_name": "reddit-app-{{timestamp}}",
-            "image_family": "reddit-app-base",
-            "subnet_id": "sdfsdfsdfsdfsdf",
-            "ssh_username": "ubuntu",
-            "platform_id": "standard-v1",
-            "use_ipv4_nat": "true"
+            "image_family": "reddit-base",
+            "ssh_username": "{{ user `ssh_username` }}",
+            "platform_id": "{{ user `platform_id` }}",
+            "use_ipv4_nat": "true",
+            "disk_size_gb": "{{ user `disk_size_gb` }}",
+            "instance_cores": "{{ user `instance_cores` }}",
+            "instance_mem_gb": "{{ user `instance_mem_gb` }}"
         }
     ],
-
     "provisioners": [
         {
             "type": "ansible",
+            "user": "ubuntu",
             "playbook_file": "ansible/packer_app.yml"
         }
     ]
-}   
+}
