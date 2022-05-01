@@ -2,24 +2,24 @@
     "builders": [
         {
             "type": "yandex",
-            "service_account_key_file": "{{user `key`}}",
-            "folder_id": "{{user `fid`}}",
-            "source_image_family": "{{user `image`}}",
-            "image_name": "reddit-app-base-{{timestamp}}",
-            "image_family": "reddit-app-base",
-            "ssh_username": "ubuntu",
+            "service_account_key_file": "{{ user `service_account_key_file` }}",
+            "folder_id": "{{ user `folder_id`}}",
+            "source_image_family": "{{ user `source_image_family` }}",
+            "image_name": "reddit-app-{{timestamp}}",
+            "image_family": "reddit-base",
+            "ssh_username": "{{ user `ssh_username` }}",
+            "platform_id": "{{ user `platform_id` }}",
             "use_ipv4_nat": "true",
-            "disk_name": "reddit-app-base",
-            "disk_size_gb": "20",
-            "platform_id": "standard-v1"
+            "disk_size_gb": "{{ user `disk_size_gb` }}",
+            "instance_cores": "{{ user `instance_cores` }}",
+            "instance_mem_gb": "{{ user `instance_mem_gb` }}"
         }
     ],
     "provisioners": [
         {
-            "type": "shell",
-            "script": "scripts/install_ruby.sh",
-            "execute_command": "sudo {{.Path}}"
+            "type": "ansible",
+            "user": "ubuntu",
+            "playbook_file": "ansible/packer_app.yml"
         }
     ]
 }
-
