@@ -1,15 +1,15 @@
 {
   "app": {
     "hosts": {
-      "appserver": {
-        "ansible_host": "51.250.8.180"
+      "appsrv": {
+        "ansible_host": "51.250.75.36"
       }
     }
   },
   "db": {
     "hosts": {
-      "dbserver": {
-        "ansible_host": "51.250.67.46"
+      "dbsrv": {
+        "ansible_host": "51.250.83.134"
       }
     }
   }

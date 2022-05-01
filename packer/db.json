@@ -1,4 +1,9 @@
 {
+    "variables": {
+            "folder_id": "",
+            "source_image_family": "",
+            "service_account_key_file": ""
+    },
     "builders": [
         {
             "type": "yandex",
@@ -13,8 +18,20 @@
             "disk_size_gb": "{{ user `disk_size_gb` }}",
             "instance_cores": "{{ user `instance_cores` }}",
             "instance_mem_gb": "{{ user `instance_mem_gb` }}"
+
+            "service_account_key_file": "{{user `service_account_key_file`}}",
+            "folder_id": "{{user `folder_id`}}",
+            "zone": "ru-central1-a",
+            "source_image_family": "{{user `source_image_family`}}",
+            "image_name": "reddit-db-{{timestamp}}",
+            "image_family": "reddit-db-base",
+            "subnet_id": "asfasfasf",
+            "ssh_username": "ubuntu",
+            "platform_id": "standard-v1",
+            "use_ipv4_nat": "true"
         }
     ],
+
     "provisioners": [
         {
             "type": "ansible",

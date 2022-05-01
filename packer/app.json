@@ -19,6 +19,7 @@
         {
             "type": "ansible",
             "user": "ubuntu",
+
             "playbook_file": "ansible/playbooks/packer_app.yml"
         }
     ]
