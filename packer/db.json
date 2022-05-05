@@ -39,3 +39,4 @@
             "playbook_file": "ansible/playbooks/packer_db.yml"
         }
     ]
+}
