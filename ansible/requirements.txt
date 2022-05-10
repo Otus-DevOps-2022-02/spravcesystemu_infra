@@ -1,2 +1,9 @@
 ansible>=2.4
-
+molecule>=2.6
+testinfra>=1.10
+python-vagrant>=0.5.15
+$ pip install -r requirements.txt
+$ molecule --version
+molecule, version 2.7.0
+$ ansible --version
+ansible 2.4.x.x
